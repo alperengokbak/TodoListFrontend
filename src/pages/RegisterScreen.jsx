@@ -19,19 +19,11 @@ import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import Snackbar from "@mui/material/Snackbar";
-import MuiAlert from "@mui/material/Alert";
-
-const Alert = React.forwardRef(function Alert(props, ref) {
-  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
-});
 
 export default function RegisterScreen() {
   const { user, setUser } = useContext(userContext);
-  const [open, setOpen] = React.useState(false);
-  const [openPassword, setOpenPassword] = React.useState(false);
-  const [openEmail, setOpenEmail] = React.useState(false);
   const navigate = useNavigate();
+  const [register] = useMutation(REGISTER);
 
   const formik = useFormik({
     initialValues: {
@@ -41,7 +33,10 @@ export default function RegisterScreen() {
     },
     validationSchema: Yup.object({
       name: Yup.string().max(15, "Must be 15 characters or less").required("Required!"),
-      email: Yup.string().email("Invalid email address").required("Required!"),
+      email: Yup.string()
+        .email("Invalid email address")
+        .notOneOf([Yup.ref("email")], "Email already taken")
+        .required("Required!"),
       password: Yup.string()
         .min(6, "Must be 6 characters or more")
         .max(20, "Must be 20 characters or less")
@@ -50,17 +45,9 @@ export default function RegisterScreen() {
         .required("Required!"),
     }),
     onSubmit: (values) => {
-      console.log(JSON.stringify(values, null, 2));
+      console.log(values);
     },
   });
-
-  useEffect(() => {
-    if (user) {
-      navigate("/");
-    }
-  }, [user]);
-
-  const [register, { error }] = useMutation(REGISTER);
 
   const handleRegister = async (e) => {
     e.preventDefault();
@@ -81,38 +68,12 @@ export default function RegisterScreen() {
       console.log("GraphQL Error:", error.message);
     }
   };
-  const handleClick = () => {
-    setOpen(true);
-  };
 
-  const handleClose = (event, reason) => {
-    if (reason === "clickaway") {
-      return;
+  useEffect(() => {
+    if (user) {
+      navigate("/");
     }
-    setOpen(false);
-  };
-
-  const handleClickPassword = () => {
-    setOpenPassword(true);
-  };
-
-  const handleClosePassword = (event, reason) => {
-    if (reason === "clickaway") {
-      return;
-    }
-    setOpenPassword(false);
-  };
-
-  const handleClickEmail = () => {
-    setOpenEmail(true);
-  };
-
-  const handleCloseEmail = (event, reason) => {
-    if (reason === "clickaway") {
-      return;
-    }
-    setOpenEmail(false);
-  };
+  }, [user]);
 
   return (
     <Container component="main" maxWidth="xs">
@@ -130,7 +91,17 @@ export default function RegisterScreen() {
         <Typography component="h1" variant="h5">
           Sign up
         </Typography>
-        <Box component="form" noValidate onSubmit={handleRegister} sx={{ mt: 3 }}>
+        <Box
+          component="form"
+          noValidate
+          onSubmit={(e) => {
+            formik.handleSubmit();
+            if (formik.isValid) {
+              handleRegister(e);
+            }
+          }}
+          sx={{ mt: 3 }}
+        >
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <TextField
@@ -144,6 +115,8 @@ export default function RegisterScreen() {
                 autoFocus
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
+                error={formik.touched.name && Boolean(formik.errors.name)}
+                helperText={formik.touched.name && formik.errors.name}
               />
             </Grid>
             <Grid item xs={12}>
@@ -158,6 +131,8 @@ export default function RegisterScreen() {
                 autoComplete="email"
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
+                error={formik.touched.email && Boolean(formik.errors.email)}
+                helperText={formik.touched.email && formik.errors.email}
               />
             </Grid>
             <Grid item xs={12}>
@@ -172,6 +147,8 @@ export default function RegisterScreen() {
                 autoComplete="new-password"
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
+                error={formik.touched.password && Boolean(formik.errors.password)}
+                helperText={formik.touched.password && formik.errors.password}
               />
             </Grid>
           </Grid>
@@ -180,15 +157,6 @@ export default function RegisterScreen() {
               fullWidth
               type="submit"
               variant="contained"
-              onClick={() => {
-                if (formik.values.name === "" || formik.values.email === "" || formik.values.password === "") {
-                  handleClick();
-                } else if (!formik.values.email.includes("@") || !formik.values.email.includes(".")) {
-                  handleClickEmail();
-                } else if (formik.values.password.length < 6 || formik.values.password.length > 20) {
-                  handleClickPassword();
-                }
-              }}
               sx={{
                 mt: 2,
                 mb: 2,
@@ -204,21 +172,6 @@ export default function RegisterScreen() {
             </Link>
           </Grid>
         </Box>
-        <Snackbar open={open} autoHideDuration={2000} onClose={handleClose}>
-          <Alert onClose={handleClose} severity="error" sx={{ width: "100%" }}>
-            {formik.errors.name}
-          </Alert>
-        </Snackbar>
-        <Snackbar open={openEmail} autoHideDuration={2000} onClose={handleCloseEmail}>
-          <Alert onClose={handleCloseEmail} severity="error" sx={{ width: "100%" }}>
-            {formik.errors.email}
-          </Alert>
-        </Snackbar>
-        <Snackbar open={openPassword} autoHideDuration={4000} onClose={handleClosePassword}>
-          <Alert onClose={handleClosePassword} severity="error" sx={{ width: "100%" }}>
-            {formik.errors.password}
-          </Alert>
-        </Snackbar>
       </Box>
     </Container>
   );

@@ -1,11 +1,15 @@
-// Declarations React And Pages
+// Declarations LoginScreen component
 import React, { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { userContext } from "../App";
 import { useMutation } from "@apollo/client";
 import { LOGIN } from "../graphql/mutations/auth";
 
-// Declarations MUI
+// Declaration Formik
+import { Formik, useFormik } from "formik";
+import * as Yup from "yup";
+
+// Declaration MUI
 import ListIcon from "@mui/icons-material/List";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
@@ -15,47 +19,50 @@ import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import Snackbar from "@mui/material/Snackbar";
-import MuiAlert from "@mui/material/Alert";
-
-const Alert = React.forwardRef(function Alert(props, ref) {
-  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
-});
 
 export default function LoginScreen() {
   const { setUser } = useContext(userContext);
-  const [openPassword, setOpenPassword] = React.useState(false);
-  const [openEmail, setOpenEmail] = React.useState(false);
   const navigate = useNavigate();
+  const [login, { error, data }] = useMutation(LOGIN);
 
-  const handleClickPassword = () => {
-    setOpenPassword(true);
-  };
-
-  const handleClosePassword = (event, reason) => {
-    if (reason === "clickaway") {
-      return;
-    }
-    setOpenPassword(false);
-  };
-
-  const handleClickEmail = () => {
-    setOpenEmail(true);
-  };
-
-  const handleCloseEmail = (event, reason) => {
-    if (reason === "clickaway") {
-      return;
-    }
-    setOpenEmail(false);
-  };
-
-  const [values, setValues] = useState({
-    email: "",
-    password: "",
+  const formik = useFormik({
+    initialValues: {
+      name: "",
+      email: "",
+      password: "",
+    },
+    validationSchema: Yup.object({
+      email: Yup.string().email("Invalid email address").required("Required!"),
+      password: Yup.string().required("Required!"),
+    }),
+    onSubmit: (values) => {
+      console.log(values);
+    },
   });
 
-  const [login, { error, data }] = useMutation(LOGIN);
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    try {
+      login({
+        variables: {
+          email: formik.values.email,
+          password: formik.values.password,
+        },
+        onCompleted: (data) => {
+          console.log(data);
+        },
+        onError: (error) => {
+          if (error.message.includes("password")) {
+            formik.setFieldError("password", `${error.message}`);
+          } else {
+            formik.setFieldError("email", `${error.message}`);
+          }
+        },
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   useEffect(() => {
     if (data) {
@@ -67,21 +74,6 @@ export default function LoginScreen() {
       navigate("/");
     }
   }, [data, setUser, navigate]);
-
-  const handleLogin = async (e) => {
-    e.preventDefault();
-    console.log(values);
-    try {
-      login({
-        variables: {
-          email: values.email,
-          password: values.password,
-        },
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   return (
     <Container component="main" maxWidth="xs">
@@ -102,39 +94,42 @@ export default function LoginScreen() {
         </Typography>
         <Box
           component="form"
+          sx={{ mt: 1 }}
           onSubmit={(e) => {
-            handleLogin(e);
-            if (error.message.includes("password")) {
-              handleClickPassword();
-            }
-            if (error.message.includes("email")) {
-              handleClickEmail();
+            formik.handleSubmit(e);
+            if (formik.isValid) {
+              handleLogin(e);
             }
           }}
-          noValidate
-          sx={{ mt: 1 }}
         >
           <TextField
             margin="normal"
             required
             fullWidth
             id="email"
-            label="Email Address"
             name="email"
+            label="Email"
+            value={formik.values.email}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            error={formik.touched.email && Boolean(formik.errors.email)}
+            helperText={formik.touched.email && formik.errors.email}
             autoComplete="email"
-            autoFocus
-            onChange={(e) => setValues({ ...values, email: e.target.value })}
           />
           <TextField
             margin="normal"
             required
             fullWidth
+            id="password"
             name="password"
             label="Password"
             type="password"
-            id="password"
+            value={formik.values.password}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            error={formik.touched.password && Boolean(formik.errors.password)}
+            helperText={formik.touched.password && formik.errors.password}
             autoComplete="current-password"
-            onChange={(e) => setValues({ ...values, password: e.target.value })}
           />
           <Grid container justifyContent="center">
             <Button
@@ -160,16 +155,6 @@ export default function LoginScreen() {
           </Grid>
         </Box>
       </Box>
-      <Snackbar open={openPassword} autoHideDuration={2000} onClose={handleClosePassword}>
-        <Alert onClose={handleClosePassword} severity="error" sx={{ width: "100%" }}>
-          {error && error.message}
-        </Alert>
-      </Snackbar>
-      <Snackbar open={openEmail} autoHideDuration={2000} onClose={handleCloseEmail}>
-        <Alert onClose={handleCloseEmail} severity="error" sx={{ width: "100%" }}>
-          {error && error.message}
-        </Alert>
-      </Snackbar>
     </Container>
   );
 }
