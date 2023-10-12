@@ -33,10 +33,7 @@ export default function RegisterScreen() {
     },
     validationSchema: Yup.object({
       name: Yup.string().max(15, "Must be 15 characters or less").required("Required!"),
-      email: Yup.string()
-        .email("Invalid email address")
-        .notOneOf([Yup.ref("email")], "Email already taken")
-        .required("Required!"),
+      email: Yup.string().email("Invalid email address").required("Required!"),
       password: Yup.string()
         .min(6, "Must be 6 characters or more")
         .max(20, "Must be 20 characters or less")
@@ -93,7 +90,6 @@ export default function RegisterScreen() {
         </Typography>
         <Box
           component="form"
-          noValidate
           onSubmit={(e) => {
             formik.handleSubmit();
             if (formik.isValid) {
