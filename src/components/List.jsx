@@ -23,14 +23,16 @@ function List({ id, name, userName, userEmail, noteContent, deleteList }) {
   }, []);
 
   return (
-    <Card sx={{ height: "100%", width: "14dvw", display: "flex", flexDirection: "column" }}>
+    <Card sx={{ height: "18dvh", width: "14dvw", display: "flex", flexDirection: "column", mr: 4, mb: 4 }}>
       <CardContent>
         <Typography gutterBottom variant="h5" component="h2">
           {name}
         </Typography>
         <Stack>
-          <Typography>{userName}</Typography>
-          <Typography>{userEmail}</Typography>
+          <Typography variant="body1">{userName}</Typography>
+          <Typography variant="body2" color="#757575">
+            {userEmail}
+          </Typography>
           <Typography>{noteContent}</Typography>
         </Stack>
       </CardContent>

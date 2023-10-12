@@ -9,10 +9,25 @@ import { CREATE_LIST } from "../graphql/mutations/list";
 // Declaration MUI
 import { Button, Stack, TextField } from "@mui/material";
 
+// TODO: Yeni liste oluştururken refetch ilk çalışmıyor. İkincide çalışıyor.
+
 export default function CreateList({ refetch }) {
   const [listName, setListName] = React.useState("");
   const { user } = React.useContext(userContext);
   const [createList] = useMutation(CREATE_LIST);
+
+  const handleCreateList = async () => {
+    if (listName === "") {
+      return;
+    }
+    try {
+      await createList({ variables: { name: listName, userId: user.id } });
+      setListName("");
+      refetch();
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <Stack mb={3} spacing={2} mt={8}>
@@ -24,17 +39,17 @@ export default function CreateList({ refetch }) {
       />
       <Stack direction="row" maxWidth="100dvw" justifyContent="flex-end" p={2}>
         <Stack direction="row" spacing={2}>
+          <Button variant="contained" onClick={handleCreateList}>
+            Create
+          </Button>
           <Button
             variant="contained"
             onClick={() => {
-              createList({ variables: { name: listName, userId: user.id } });
               setListName("");
-              refetch();
             }}
           >
-            Create
+            Cancel
           </Button>
-          <Button variant="contained">Cancel</Button>
         </Stack>
       </Stack>
     </Stack>

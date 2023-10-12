@@ -41,6 +41,7 @@ export function App() {
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
+    localStorage.removeItem("cartItems");
     setUser(null);
   };
 
