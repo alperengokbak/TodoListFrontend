@@ -10,3 +10,14 @@ export const CREATE_LIST = gql`
     }
   }
 `;
+
+export const DELETE_LIST = gql`
+  mutation DeleteList($id: ID!) {
+    deleteList(id: $id) {
+      id
+      name
+      createdAt
+      updatedAt
+    }
+  }
+`;
