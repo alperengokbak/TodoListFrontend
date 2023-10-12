@@ -1,28 +1,22 @@
 import * as React from "react";
 import List from "../components/List";
-import Test from "./Test";
+import CreateList from "../components/CreateList";
 
 // Declaration Apollo Server
 import { useMutation, useQuery } from "@apollo/client";
 import { GET_LISTS } from "../graphql/queries/list";
 
 // Declaration MUI
-import AppBar from "@mui/material/AppBar";
-import CssBaseline from "@mui/material/CssBaseline";
-import Grid from "@mui/material/Grid";
-import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
-import Container from "@mui/material/Container";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
-
-const defaultTheme = createTheme();
+import { Stack, AppBar, Grid, Toolbar, Typography, Container, Button } from "@mui/material";
 
 export default function Home({ handleLogout }) {
-  const [lists, setLists] = React.useState([]);
+  const { loading, error, data, refetch } = useQuery(GET_LISTS);
+
+  if (loading) return <Typography>Loading...</Typography>;
+  if (error) return <Typography>{`Error! ${error.message}`}</Typography>;
 
   return (
-    <ThemeProvider theme={defaultTheme}>
-      <CssBaseline />
+    <Stack>
       <AppBar position="sticky">
         <Toolbar>
           <Typography variant="h6" color="inherit" noWrap>
@@ -35,34 +29,27 @@ export default function Home({ handleLogout }) {
           maxHeight: "calc(100dvh - 64px)",
         }}
       >
-        {/* <Typography component="h1" variant="h2" align="center" color="text.primary" gutterBottom> */}
-        <Container sx={{ py: 8 }} maxWidth="lg">
-          <Test handleLogout={handleLogout} />
-          <Grid container spacing={4}>
-            {lists.map((list) => (
-              <List key={list} />
+        <Container maxWidth="lg">
+          <CreateList refetch={refetch} />
+          <Grid container>
+            {data.lists.map((list) => (
+              <List
+                key={list.id}
+                id={list.id}
+                name={list.name}
+                userName={list.user.name}
+                userEmail={list.user.email}
+                noteContent={list.notes.content}
+              />
             ))}
           </Grid>
+          <Stack direction="row" justifyContent="flex-end" width="100wv" mt={5} mr={2}>
+            <Button variant="contained" onClick={handleLogout}>
+              Logout
+            </Button>
+          </Stack>
         </Container>
       </main>
-    </ThemeProvider>
-  );
-}
-
-/* import React from "react";
-
-// Declaration MUI
-import { Button, Stack, Typography } from "@mui/material";
-
-export default function Home({ handleLogout }) {
-  return (
-    <Stack height="100dvh" justifyContent="space-between">
-      <Typography variant="h3">You Have To-DO</Typography>
-      <Button variant="contained" onClick={handleLogout}>
-        Logout
-      </Button>
     </Stack>
   );
 }
-
- */

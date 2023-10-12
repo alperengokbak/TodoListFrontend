@@ -29,6 +29,15 @@ export const GET_LISTS = gql`
       name
       createdAt
       updatedAt
+      user {
+        id
+        name
+        email
+      }
+      notes {
+        id
+        content
+      }
     }
   }
 `;
