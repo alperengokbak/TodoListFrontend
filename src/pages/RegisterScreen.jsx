@@ -2,7 +2,7 @@
 import React, { useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { REGISTER } from "../graphql/mutations/auth";
-import { userContext } from "../App";
+import { userContext } from "../Context/UserContext";
 import { useMutation } from "@apollo/client";
 
 // Declaration Formik

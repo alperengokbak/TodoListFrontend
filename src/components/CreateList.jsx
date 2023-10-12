@@ -1,7 +1,6 @@
 // Declaration React
 import React from "react";
-import { useContext } from "react";
-import { userContext } from "../App";
+import { userContext } from "../Context/UserContext";
 
 // Declaration Apollo Server
 import { useMutation } from "@apollo/client";
@@ -12,7 +11,7 @@ import { Button, Stack, TextField } from "@mui/material";
 
 export default function CreateList({ refetch }) {
   const [listName, setListName] = React.useState("");
-  const { user } = useContext(userContext);
+  const { user } = React.useContext(userContext);
   const [createList] = useMutation(CREATE_LIST);
 
   return (

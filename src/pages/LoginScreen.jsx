@@ -1,7 +1,7 @@
 // Declarations LoginScreen component
 import React, { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { userContext } from "../App";
+import { userContext } from "../Context/UserContext";
 import { useMutation } from "@apollo/client";
 import { LOGIN } from "../graphql/mutations/auth";
 
