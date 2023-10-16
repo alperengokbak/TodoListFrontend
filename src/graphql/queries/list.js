@@ -32,7 +32,6 @@ export const GET_LISTS = gql`
       user {
         id
         name
-        email
       }
       notes {
         id

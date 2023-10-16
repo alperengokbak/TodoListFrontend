@@ -9,8 +9,6 @@ import { CREATE_LIST } from "../graphql/mutations/list";
 // Declaration MUI
 import { Button, Stack, TextField } from "@mui/material";
 
-// TODO: Yeni liste oluştururken refetch ilk çalışmıyor. İkincide çalışıyor.
-
 export default function CreateList({ refetch }) {
   const [listName, setListName] = React.useState("");
   const { user } = React.useContext(userContext);

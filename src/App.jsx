@@ -79,7 +79,6 @@ export function App() {
             </Header>
           }
         />
-        {/* <Route path="*" element={<Navigate to="/" />} /> */}
       </Routes>
     </Router>
   );

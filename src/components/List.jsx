@@ -4,6 +4,9 @@ import React from "react";
 // Declaration Apollo Server
 import { useReactiveVar } from "@apollo/client";
 
+// Declaration Context
+import { userContext } from "../Context/UserContext";
+
 // Declaration MUI
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
@@ -13,7 +16,8 @@ import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import { cartItemsVar } from "../reactiveVariable";
 
-function List({ id, name, userName, userEmail, noteContent, deleteList }) {
+function List({ id, userId, name, userName, userEmail, noteContent, deleteList }) {
+  const { user } = React.useContext(userContext);
   const cartItems = useReactiveVar(cartItemsVar);
 
   React.useEffect(() => {
@@ -31,7 +35,7 @@ function List({ id, name, userName, userEmail, noteContent, deleteList }) {
         <Stack>
           <Typography variant="body1">{userName}</Typography>
           <Typography variant="body2" color="#757575">
-            {userEmail}
+            {userId === user?.id ? user?.email : null}
           </Typography>
           <Typography>{noteContent}</Typography>
         </Stack>

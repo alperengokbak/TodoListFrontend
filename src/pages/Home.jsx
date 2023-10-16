@@ -4,7 +4,7 @@ import List from "../components/List";
 import CreateList from "../components/CreateList";
 
 // Declaration MUI
-import { Stack, Grid, Typography, Container } from "@mui/material";
+import { Grid, Container, Typography } from "@mui/material";
 
 export default function Home({ loading, error, refetch, data, deleteList }) {
   if (loading) return <Typography>Loading...</Typography>;
@@ -24,8 +24,8 @@ export default function Home({ loading, error, refetch, data, deleteList }) {
               key={list.id}
               id={list.id}
               name={list.name}
+              userId={list.user.id}
               userName={list.user.name}
-              userEmail={list.user.email}
               noteContent={list.notes.content}
               deleteList={deleteList}
             />
