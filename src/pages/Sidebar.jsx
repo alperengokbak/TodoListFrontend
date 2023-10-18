@@ -1,6 +1,6 @@
 // Declaration React and React Router
 import * as React from "react";
-import List from "../components/List";
+import SidebarListView from "../components/SidebarListView";
 
 // Declaration Pages
 import HeaderList from "../components/HeaderList";
@@ -22,7 +22,7 @@ export default function Home({ loading, error, data, deleteList }) {
         <HeaderList />
         <Grid container mt={8} justifyContent="center">
           {data.lists.map((list) => (
-            <List
+            <SidebarListView
               key={list.id}
               id={list.id}
               name={list.name}

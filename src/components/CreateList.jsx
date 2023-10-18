@@ -29,7 +29,7 @@ export default function CreateList({ refetch }) {
 
   return (
     <Container
-      maxWidth="md"
+      maxWidth="lg"
       sx={{
         mt: 8,
         mb: 3,

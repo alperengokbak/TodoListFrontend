@@ -10,12 +10,13 @@ import { DELETE_LIST } from "./graphql/mutations/list";
 // Declaration Pages
 import LoginScreen from "./pages/LogInScreen";
 import RegisterScreen from "./pages/RegisterScreen";
-import Home from "./pages/Home";
+import Home from "./pages/Sidebar";
 import Cart from "./pages/Cart";
 import Header from "./components/Header";
 import { userContext } from "./Context/UserContext";
 import { Divider, Stack } from "@mui/material";
 import CreateList from "./components/CreateList";
+import MainPage from "./pages/MainPage";
 
 export function App() {
   const { user, setUser } = useContext(userContext);
@@ -75,6 +76,8 @@ export function App() {
               <Divider orientation="vertical" flexItem />
               <Header handleLogout={handleLogout}>
                 <CreateList refetch={refetch} />
+                <Divider />
+                <MainPage loading={loading} error={error} data={data} deleteList={deleteList} />
               </Header>
             </Stack>
           }

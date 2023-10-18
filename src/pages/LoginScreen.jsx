@@ -6,7 +6,7 @@ import { useMutation } from "@apollo/client";
 import { LOGIN } from "../graphql/mutations/auth";
 
 // Declaration Formik
-import { Formik, useFormik } from "formik";
+import { useFormik } from "formik";
 import * as Yup from "yup";
 
 // Declaration MUI
@@ -23,7 +23,7 @@ import Container from "@mui/material/Container";
 export default function LoginScreen() {
   const { setUser } = useContext(userContext);
   const navigate = useNavigate();
-  const [login, { error, data }] = useMutation(LOGIN);
+  const [login, { data }] = useMutation(LOGIN);
 
   const formik = useFormik({
     initialValues: {

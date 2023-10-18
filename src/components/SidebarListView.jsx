@@ -20,7 +20,7 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import Typography from "@mui/material/Typography";
 import { cartItemsVar } from "../reactiveVariable";
 
-function List({ id, userId, name, userName, userEmail, noteContent, deleteList, createdAt, updateAt }) {
+function SidebarListView({ id, userId, name, userName, userEmail, noteContent, deleteList, createdAt }) {
   const { user } = React.useContext(userContext);
   const cartItems = useReactiveVar(cartItemsVar);
 
@@ -29,9 +29,6 @@ function List({ id, userId, name, userName, userEmail, noteContent, deleteList, 
     const initialCartItems = storedData ? JSON.parse(storedData) : [];
     cartItemsVar(initialCartItems);
   }, []);
-
-  const date =
-    new Date(createdAt).getDay() + "/" + new Date(createdAt).getMonth() + "/" + new Date(createdAt).getFullYear();
 
   return (
     <Card sx={{ maxWidth: 345, display: "flex", flexDirection: "column", mb: 4 }}>
@@ -92,4 +89,4 @@ function List({ id, userId, name, userName, userEmail, noteContent, deleteList, 
   );
 }
 
-export default List;
+export default SidebarListView;
