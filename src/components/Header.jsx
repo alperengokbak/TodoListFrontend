@@ -16,8 +16,14 @@ function Header({ children, handleLogout }) {
   const navigate = useNavigate();
   const cartItems = useReactiveVar(cartItemsVar);
   return (
-    <Stack>
-      <AppBar position="sticky">
+    <Stack width="80dvw">
+      <AppBar
+        position="sticky"
+        sx={{
+          color: "#FFFFFF",
+          backgroundColor: "#357a38",
+        }}
+      >
         <Toolbar>
           <Typography variant="h6" color="inherit" noWrap>
             You Have To-DO

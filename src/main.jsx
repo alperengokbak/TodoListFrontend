@@ -2,6 +2,10 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { App } from "./App.jsx";
+import { MyThemeProvider } from "./theme/ThemeProvider.js";
+
+// Declaration MUI
+import { ThemeProvider } from "@mui/material";
 
 // Declaration Apollo Server
 import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
@@ -21,8 +25,10 @@ const client = new ApolloClient({
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <ApolloProvider client={client}>
-    <UserContextProvider>
-      <App />
-    </UserContextProvider>
+    <ThemeProvider theme={MyThemeProvider}>
+      <UserContextProvider>
+        <App />
+      </UserContextProvider>
+    </ThemeProvider>
   </ApolloProvider>
 );

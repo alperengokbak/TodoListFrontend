@@ -86,7 +86,7 @@ export default function LoginScreen() {
           alignItems: "center",
         }}
       >
-        <Avatar sx={{ m: 1, bgcolor: "#008000" }}>
+        <Avatar sx={{ m: 1 }}>
           <ListIcon />
         </Avatar>
         <Typography component="h1" variant="h5">

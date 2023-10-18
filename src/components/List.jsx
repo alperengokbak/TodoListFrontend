@@ -11,12 +11,16 @@ import { userContext } from "../Context/UserContext";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
+import CardHeader from "@mui/material/CardHeader";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
+import Avatar from "@mui/material/Avatar";
+import IconButton from "@mui/material/IconButton";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
 import Typography from "@mui/material/Typography";
 import { cartItemsVar } from "../reactiveVariable";
 
-function List({ id, userId, name, userName, userEmail, noteContent, deleteList }) {
+function List({ id, userId, name, userName, userEmail, noteContent, deleteList, createdAt, updateAt }) {
   const { user } = React.useContext(userContext);
   const cartItems = useReactiveVar(cartItemsVar);
 
@@ -26,12 +30,22 @@ function List({ id, userId, name, userName, userEmail, noteContent, deleteList }
     cartItemsVar(initialCartItems);
   }, []);
 
+  const date =
+    new Date(createdAt).getDay() + "/" + new Date(createdAt).getMonth() + "/" + new Date(createdAt).getFullYear();
+
   return (
-    <Card sx={{ height: "18dvh", width: "14dvw", display: "flex", flexDirection: "column", mr: 4, mb: 4 }}>
+    <Card sx={{ maxWidth: 345, display: "flex", flexDirection: "column", mb: 4 }}>
+      <CardHeader
+        avatar={<Avatar>{userName[0]}</Avatar>}
+        action={
+          <IconButton aria-label="settings">
+            <MoreVertIcon />
+          </IconButton>
+        }
+        title={name}
+        subheader={createdAt}
+      />
       <CardContent>
-        <Typography gutterBottom variant="h5" component="h2">
-          {name}
-        </Typography>
         <Stack>
           <Typography variant="body1">{userName}</Typography>
           <Typography variant="body2" color="#757575">

@@ -7,7 +7,7 @@ import { useMutation } from "@apollo/client";
 import { CREATE_LIST } from "../graphql/mutations/list";
 
 // Declaration MUI
-import { Button, Stack, TextField } from "@mui/material";
+import { Button, Container, Stack, TextField } from "@mui/material";
 
 export default function CreateList({ refetch }) {
   const [listName, setListName] = React.useState("");
@@ -28,15 +28,21 @@ export default function CreateList({ refetch }) {
   };
 
   return (
-    <Stack mb={3} spacing={2} mt={8}>
-      <TextField
-        variant="outlined"
-        placeholder="List Name"
-        value={listName}
-        onChange={(e) => setListName(e.target.value)}
-      />
-      <Stack direction="row" maxWidth="100dvw" justifyContent="flex-end" p={2}>
-        <Stack direction="row" spacing={2}>
+    <Container
+      maxWidth="md"
+      sx={{
+        mt: 8,
+        mb: 3,
+      }}
+    >
+      <Stack spacing={3}>
+        <TextField
+          variant="outlined"
+          placeholder="List Name"
+          value={listName}
+          onChange={(e) => setListName(e.target.value)}
+        />
+        <Stack direction="row" justifyContent="flex-end" spacing={2}>
           <Button variant="contained" onClick={handleCreateList}>
             Create
           </Button>
@@ -50,6 +56,6 @@ export default function CreateList({ refetch }) {
           </Button>
         </Stack>
       </Stack>
-    </Stack>
+    </Container>
   );
 }

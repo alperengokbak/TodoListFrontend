@@ -14,6 +14,8 @@ import Home from "./pages/Home";
 import Cart from "./pages/Cart";
 import Header from "./components/Header";
 import { userContext } from "./Context/UserContext";
+import { Divider, Stack } from "@mui/material";
+import CreateList from "./components/CreateList";
 
 export function App() {
   const { user, setUser } = useContext(userContext);
@@ -66,17 +68,29 @@ export function App() {
         <Route
           path="/"
           element={
-            <Header handleLogout={handleLogout}>
-              <Home loading={loading} error={error} refetch={refetch} data={data} deleteList={deleteList} />
-            </Header>
+            <Stack direction="row" height="100dvh" width="100dvw" m={0}>
+              <Stack direction="column" width="20dvw">
+                <Home loading={loading} error={error} data={data} deleteList={deleteList} />
+              </Stack>
+              <Divider orientation="vertical" flexItem />
+              <Header handleLogout={handleLogout}>
+                <CreateList refetch={refetch} />
+              </Header>
+            </Stack>
           }
         />
         <Route
           path="/cart"
           element={
-            <Header handleLogout={handleLogout}>
-              <Cart />
-            </Header>
+            <Stack direction="row" height="100dvh" width="100dvw" m={0}>
+              <Stack direction="column" width="20dvw">
+                <Home loading={loading} error={error} data={data} deleteList={deleteList} />
+              </Stack>
+              <Divider orientation="vertical" flexItem />
+              <Header handleLogout={handleLogout}>
+                <Cart />
+              </Header>
+            </Stack>
           }
         />
       </Routes>
