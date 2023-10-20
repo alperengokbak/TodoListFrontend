@@ -1,18 +1,15 @@
 // Declaration React
 import React from "react";
-import { userContext } from "../Context/UserContext";
-
-// Declaration Apollo Server
-import { useMutation } from "@apollo/client";
-import { CREATE_LIST } from "../graphql/mutations/list";
 
 // Declaration MUI
 import { Button, Container, Stack, TextField } from "@mui/material";
 
-export default function CreateList({ refetch }) {
+// Declaration Context
+import { userContext } from "../Context/UserContext";
+
+export default function CreateList() {
   const [listName, setListName] = React.useState("");
-  const { user } = React.useContext(userContext);
-  const [createList] = useMutation(CREATE_LIST);
+  const { user, refetch, createList } = React.useContext(userContext);
 
   const handleCreateList = async () => {
     if (listName === "") {

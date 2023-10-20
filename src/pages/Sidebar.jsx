@@ -8,9 +8,13 @@ import HeaderList from "../components/HeaderList";
 // Declaration MUI
 import { Grid, Container, Typography } from "@mui/material";
 
-export default function Home({ loading, error, data, deleteList }) {
-  if (loading) return <Typography>Loading...</Typography>;
-  if (error) return <Typography>{`Error! ${error.message}`}</Typography>;
+// Declaration Context
+import { userContext } from "../Context/UserContext";
+
+export default function Sidebar() {
+  const { dataLists, loadingLists, errorLists, deleteList, setListId } = React.useContext(userContext);
+  if (loadingLists) return <Typography>Loading...</Typography>;
+  if (errorLists) return <Typography>{`Error! ${error.message}`}</Typography>;
   return (
     <main
       style={{
@@ -21,17 +25,19 @@ export default function Home({ loading, error, data, deleteList }) {
       <Container maxWidth="lg">
         <HeaderList />
         <Grid container mt={8} justifyContent="center">
-          {data.lists.map((list) => (
+          {dataLists.lists.map((list) => (
             <SidebarListView
               key={list.id}
               id={list.id}
               name={list.name}
               userId={list.user.id}
               userName={list.user.name}
+              userEmail={list.user.email}
               noteContent={list.notes.content}
               createdAt={list.createdAt}
               updateAt={list.updateAt}
               deleteList={deleteList}
+              setListId={setListId}
             />
           ))}
         </Grid>

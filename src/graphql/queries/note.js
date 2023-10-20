@@ -2,7 +2,7 @@ import { gql } from "@apollo/client";
 
 export const GET_NOTES = gql`
   query GetNotes {
-    getNotes {
+    notes {
       id
       content
       createdAt
@@ -13,11 +13,16 @@ export const GET_NOTES = gql`
 
 export const GET_NOTE = gql`
   query GetNote($id: ID!) {
-    getNote(id: $id) {
+    note(id: $id) {
       id
       content
       createdAt
       updatedAt
+      user {
+        id
+        name
+        email
+      }
     }
   }
 `;

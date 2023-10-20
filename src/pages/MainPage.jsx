@@ -7,25 +7,28 @@ import MainPageListView from "../components/MainPageListView";
 // Declaration MUI
 import { Container, Stack, Typography } from "@mui/material";
 
-function MainPage({ loading, error, data, deleteList }) {
-  if (loading) return <Typography>Loading...</Typography>;
-  if (error) return <Typography>{`Error! ${error.message}`}</Typography>;
+// Declaration Context
+import { userContext } from "../Context/UserContext";
+
+function MainPage() {
+  const { loadingList, errorList, dataList, createNote, deleteNote, refetch } = React.useContext(userContext);
+  if (loadingList) return <Typography>Loading...</Typography>;
+  if (errorList) return <Typography>{`Error! ${error.message}`}</Typography>;
+  if (!dataList) return null;
   return (
     <Container maxWidth="lg">
       <Stack>
-        {data.lists.map((list) => (
-          <MainPageListView
-            key={list.id}
-            id={list.id}
-            name={list.name}
-            userId={list.user.id}
-            userName={list.user.name}
-            noteContent={list.notes[0]?.content}
-            createdAt={list.createdAt}
-            updateAt={list.updateAt}
-            deleteList={deleteList}
-          />
-        ))}
+        <MainPageListView
+          key={dataList.list.id}
+          id={dataList.list.id}
+          userId={dataList.list.user.id}
+          userName={dataList.list.user.name}
+          userEmail={dataList.list.user.email}
+          notes={dataList.list?.notes}
+          createNote={createNote}
+          refetch={refetch}
+          deleteNote={deleteNote}
+        />
       </Stack>
     </Container>
   );

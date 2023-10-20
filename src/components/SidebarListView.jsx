@@ -20,7 +20,7 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import Typography from "@mui/material/Typography";
 import { cartItemsVar } from "../reactiveVariable";
 
-function SidebarListView({ id, userId, name, userName, userEmail, noteContent, deleteList, createdAt }) {
+function SidebarListView({ id, userId, name, userName, userEmail, noteContent, deleteList, createdAt, setListId }) {
   const { user } = React.useContext(userContext);
   const cartItems = useReactiveVar(cartItemsVar);
 
@@ -31,7 +31,22 @@ function SidebarListView({ id, userId, name, userName, userEmail, noteContent, d
   }, []);
 
   return (
-    <Card sx={{ maxWidth: 345, display: "flex", flexDirection: "column", mb: 4 }}>
+    <Card
+      sx={{
+        maxWidth: 345,
+        display: "flex",
+        flexDirection: "column",
+        mb: 4,
+        cursor: "pointer",
+        ":hover": {
+          boxShadow: "0 0 11px rgba(33,33,33,.2)",
+          backgroundColor: "#f5f5f5",
+        },
+      }}
+      onClick={() => {
+        setListId(id);
+      }}
+    >
       <CardHeader
         avatar={<Avatar>{userName[0]}</Avatar>}
         action={

@@ -11,7 +11,7 @@ import { ThemeProvider } from "@mui/material";
 import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
 
 // Declaration Context
-import { UserContextProvider } from "./Context/UserContext.jsx";
+import UserContextProvider from "./Context/UserContext.jsx";
 
 const PORT = 4001;
 
