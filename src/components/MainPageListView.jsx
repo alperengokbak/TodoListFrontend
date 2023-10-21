@@ -31,7 +31,7 @@ function MainPageListView({ id, notes, userName, createNote, deleteNote, refetch
             },
           }}
         >
-          <Avatar>{userName[0]}</Avatar>
+          <Avatar>{note.user.name[0]}</Avatar>
           <Stack direction="row" alignItems="center" ml={2}>
             <Typography variant="body1" fontWeight="bold">
               {note.content}

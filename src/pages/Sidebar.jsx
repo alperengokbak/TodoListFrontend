@@ -14,7 +14,7 @@ import { userContext } from "../Context/UserContext";
 export default function Sidebar() {
   const { dataLists, loadingLists, errorLists, deleteList, setListId } = React.useContext(userContext);
   if (loadingLists) return <Typography>Loading...</Typography>;
-  if (errorLists) return <Typography>{`Error! ${error.message}`}</Typography>;
+  if (errorLists) return <Typography>{`Error! ${errorLists.message}`}</Typography>;
   return (
     <main
       style={{

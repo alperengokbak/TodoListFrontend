@@ -15,8 +15,10 @@ export const GET_LIST = gql`
       notes {
         id
         content
-        createdAt
-        updatedAt
+        user {
+          id
+          name
+        }
       }
     }
   }

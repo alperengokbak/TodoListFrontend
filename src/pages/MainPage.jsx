@@ -13,7 +13,7 @@ import { userContext } from "../Context/UserContext";
 function MainPage() {
   const { loadingList, errorList, dataList, createNote, deleteNote, refetch } = React.useContext(userContext);
   if (loadingList) return <Typography>Loading...</Typography>;
-  if (errorList) return <Typography>{`Error! ${error.message}`}</Typography>;
+  if (errorList) return <Typography>{`Error! ${errorList.message}`}</Typography>;
   if (!dataList) return null;
   return (
     <Container maxWidth="lg">

@@ -23,6 +23,13 @@ function CreateNote({ createNote, id, refetch }) {
     console.log("list id: ", id);
     console.log("user id: ", user.id);
   };
+
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter") {
+      handleCreateNote();
+    }
+  };
+
   return (
     <Stack direction="row" flex={1} spacing={2}>
       <TextField
@@ -31,6 +38,7 @@ function CreateNote({ createNote, id, refetch }) {
         placeholder="Content"
         value={content}
         onChange={(e) => setContent(e.target.value)}
+        onKeyDown={handleKeyPress}
       />
       <Button variant="contained" size="small" onClick={handleCreateNote}>
         Create

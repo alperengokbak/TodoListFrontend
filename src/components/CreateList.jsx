@@ -24,6 +24,12 @@ export default function CreateList() {
     }
   };
 
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter") {
+      handleCreateList();
+    }
+  };
+
   return (
     <Container
       maxWidth="lg"
@@ -38,6 +44,7 @@ export default function CreateList() {
           placeholder="List Name"
           value={listName}
           onChange={(e) => setListName(e.target.value)}
+          onKeyDown={handleKeyPress}
         />
         <Stack direction="row" justifyContent="flex-end" spacing={2}>
           <Button variant="contained" onClick={handleCreateList}>
